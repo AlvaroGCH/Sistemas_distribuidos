@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-filemanager
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: filemanager
+  template:
+    metadata:
+      labels:
+        app: filemanager
+    spec:
+      containers:
+      - name: kubernetes-filemanager
+        image: juanpmc/practica2server:1.0
+        volumeMounts:
+        - name: filemanager-storage
+          mountPath: /targetPath
+      volumes:
+      - name: filemanager-storage
+        persistentVolumeClaim:
+          claimName: example-claim
